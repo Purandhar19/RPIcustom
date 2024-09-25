@@ -22,7 +22,7 @@ void AP_RPI::update()
     send_data((const uint8_t*)message, strlen(message));
     
     hal.console->printf("Sent to RPI: %s\n", message);
-    
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO,"sent to RPI") ;//this has been included since nothing appeared in QGC.
     hal.console->printf("update function executed\n");
     
 
@@ -40,10 +40,13 @@ void AP_RPI::update()
         if (len > 0) {
             // Display the received message
             hal.console->printf("Received from RPI (%u bytes): ", len);
+            GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Received from RPI (%u bytes): ", len); //this has been included since nothing appeared in QGC.
             for (uint16_t i = 0; i < len; i++) {
                 hal.console->printf("%02X ", data[i]);
+                GCS_SEND_TEXT(MAV_SEVERITY_INFO,"%02X ", data[i] ); 
             }
             hal.console->printf("\n");
+            GCS_SEND_TEXT( "\n" );
         }
     }
 }
